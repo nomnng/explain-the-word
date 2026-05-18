@@ -7,7 +7,7 @@ export default function Home() {
   const initialWord = getRandomWord();
 
   return (
-    <div className="flex min-h-full flex-1 flex-col bg-zinc-50 font-sans dark:bg-black">
+    <div className="flex min-h-full flex-1 flex-col font-sans">
       <WordGame initialWord={initialWord} />
     </div>
   );
