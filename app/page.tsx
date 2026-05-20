@@ -1,14 +1,21 @@
-import { WordGame } from "@/app/components/word-game";
-import { getRandomWord } from "@/lib/words";
+import Link from "next/link";
 
-export const dynamic = "force-dynamic";
+export default function HomePage() {
+	return (
+		<div className="mx-auto flex w-full max-w-2xl flex-col gap-8 px-6 py-16 font-sans">
+			<header className="space-y-3">
+				<h1 className="text-center text-4xl font-semibold uppercase tracking-widest">
+					Recent words
+				</h1>
+				<p className="text-lg leading-8">
+					Recently described words from everyone playing will show up here.
+					Saved results are not wired up yet — this page is a placeholder.
+				</p>
+			</header>
 
-export default function Home() {
-  const initialWord = getRandomWord();
-
-  return (
-    <div className="flex min-h-full flex-1 flex-col font-sans">
-      <WordGame initialWord={initialWord} />
-    </div>
-  );
+			<section className="rounded-3xl border-2 border-foreground bg-primary p-6 shadow-sm">
+				<p className="text-foreground/70">No saved words yet.</p>
+			</section>
+		</div>
+	);
 }

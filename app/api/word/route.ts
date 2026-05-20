@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 export async function GET() {
   try {
     const word = getRandomWord();
-    return NextResponse.json({ word });
+    return NextResponse.json(word);
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "Failed to load a word";

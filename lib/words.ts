@@ -1,31 +1,34 @@
 import { readFileSync } from "fs";
 import { join } from "path";
 
-let cachedWords: string[] | null = null;
+export type WordEntry = {
+	word: string;
+	type: string;
+	CEFR: string;
+};
 
-function loadWords(): string[] {
-  if (cachedWords) {
-    return cachedWords;
-  }
+let cachedWords: WordEntry[] | null = null;
 
-  const filePath = join(process.cwd(), "word_list.txt");
-  const text = readFileSync(filePath, "utf-8");
+function loadWords(): WordEntry[] {
+	if (cachedWords) {
+		return cachedWords;
+	}
 
-  cachedWords = text
-    .split(/\r?\n/)
-    .map((line) => line.trim())
-    .filter((line) => line.length > 0 && !line.startsWith("#"));
+	const filePath = join(process.cwd(), "words.json");
+	const text = readFileSync(filePath, "utf-8");
 
-  return cachedWords;
+	cachedWords = JSON.parse(text) as WordEntry[];
+	
+	return cachedWords;
 }
 
-export function getRandomWord(): string {
-  const words = loadWords();
+export function getRandomWord(): WordEntry {
+	const words = loadWords();
 
-  if (words.length === 0) {
-    throw new Error("word_list.txt has no words");
-  }
+	if (words.length === 0) {
+		throw new Error("No words was loaded");
+	}
 
-  const index = Math.floor(Math.random() * words.length);
-  return words[index];
+	const index = Math.floor(Math.random() * words.length);
+	return words[index];
 }

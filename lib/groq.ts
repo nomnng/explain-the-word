@@ -79,8 +79,8 @@ Scoring guide:
 - 90-100: excellent, captures core meaning and important nuance
 - 70-89: good, mostly correct with minor gaps
 - 50-69: partial understanding
-- 30-49: weak or significantly incomplete
-- 0-29: incorrect, unrelated, or empty reasoning
+- 25-49: weak or significantly incomplete
+- 0-24: incorrect, unrelated, or empty reasoning
 Be fair, concise, and strict about factual accuracy.`,
         },
         {

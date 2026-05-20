@@ -1,0 +1,35 @@
+import Link from "next/link";
+
+type WordPageProps = {
+	params: Promise<{ word: string }>;
+};
+
+export default async function WordPage({ params }: WordPageProps) {
+	const { word } = await params;
+	const decodedWord = decodeURIComponent(word);
+
+	return (
+		<div className="mx-auto flex w-full max-w-2xl flex-col gap-8 px-6 py-16 font-sans">
+			<header className="space-y-3">
+				<p className="text-sm uppercase tracking-widest text-foreground/70">
+					Word
+				</p>
+				<h1 className="text-4xl font-semibold capitalize">{decodedWord}</h1>
+				<p className="text-lg leading-8">
+					All scores and descriptions from other players for this word will
+					appear here. This page is a placeholder.
+				</p>
+			</header>
+
+			<section className="rounded-3xl border-2 border-foreground bg-primary p-8 shadow-sm">
+				<p className="text-foreground/70">No submissions yet.</p>
+			</section>
+
+			<p className="text-center text-sm">
+				<Link href="/" className="underline underline-offset-4 hover:opacity-80">
+					Back to recent words
+				</Link>
+			</p>
+		</div>
+	);
+}
