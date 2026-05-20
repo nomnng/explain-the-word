@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 
 type EvaluateRequestBody = {
   word?: string;
+  type?: string;
   description?: string;
 };
 
@@ -16,6 +17,7 @@ export async function POST(request: Request) {
   }
 
   const word = body.word?.trim();
+  const type = body.type?.trim();
   const description = body.description?.trim();
 
   if (!word) {
@@ -37,7 +39,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    const result = await evaluateWordDescription(word, description);
+    const result = await evaluateWordDescription(word, description, type);
     return NextResponse.json(result);
   } catch (error) {
     const message =

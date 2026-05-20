@@ -48,6 +48,7 @@ function parseEvaluation(content: string): EvaluationResult {
 export async function evaluateWordDescription(
   word: string,
   userDescription: string,
+  type?: string,
 ): Promise<EvaluationResult> {
   const apiKey = process.env.GROQ_API_KEY;
 
@@ -69,10 +70,11 @@ export async function evaluateWordDescription(
         {
           role: "system",
           content: `You grade how well someone explained the meaning of an English word. You will refer to user as "You".
+When a part of speech is provided, evaluate the user's description for that specific sense of the word (e.g. "run" as a verb vs noun).
 Respond with JSON only, using this exact shape:
 {
   "score": <integer from 0 to 100>,
-  "explanation": "<clear, accurate definition of the word>",
+  "explanation": "<clear, accurate definition of the word in the given part of speech>",
   "feedback": "<2-3 sentences evaluating the user's description: what they got right, what they missed, and any misconceptions>"
 }
 Scoring guide:
@@ -85,7 +87,9 @@ Be fair, concise, and strict about factual accuracy.`,
         },
         {
           role: "user",
-          content: `Word: ${word}\nUser's description:\n${userDescription}`,
+          content: type
+            ? `Word: ${word}\nPart of speech: ${type}\nUser's description:\n${userDescription}`
+            : `Word: ${word}\nUser's description:\n${userDescription}`,
         },
       ],
     }),

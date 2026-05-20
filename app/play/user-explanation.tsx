@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { WordEntry } from "@/lib/words";
+import type { WordEntry } from "@/lib/words";
 
 type UserExplanationProps = {
 	wordEntry: WordEntry;
@@ -29,6 +29,14 @@ export function UserExplanation({ wordEntry, isLoading, onGetNewWord, onSubmit }
 						<p className="mt-1 text-4xl font-semibold capitalize">
 							{wordEntry.word}
 						</p>
+						<div className="mt-2 flex flex-wrap gap-2">
+							<span className="rounded-full bg-secondary px-3 py-1 text-xs capitalize">
+								{wordEntry.type}
+							</span>
+							<span className="rounded-full bg-secondary px-3 py-1 text-xs">
+								{wordEntry.CEFR}
+							</span>
+						</div>
 					</div>
 
 					<button

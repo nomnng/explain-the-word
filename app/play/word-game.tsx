@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { WordEntry } from "@/lib/words";
 import { UserExplanation } from "./user-explanation";
 import { Score } from "./score";
+import type { WordEntry } from "@/lib/words";
 
 type EvaluationResult = {
 	score: number;
@@ -18,7 +18,7 @@ type WordGameProps = {
 export function WordGame({ initialWord }: WordGameProps) {
 	const [wordEntry, setWordEntry] = useState(initialWord);
 	const [result, setResult] = useState<EvaluationResult | null>(null);
-	const [error, setError] = useState<string | null>("Temporary error");
+	const [error, setError] = useState<string | null>(null);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [isLoadingWord, setIsLoadingWord] = useState(false);
 
@@ -63,7 +63,11 @@ export function WordGame({ initialWord }: WordGameProps) {
 			const response = await fetch("/api/evaluate", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ word: wordEntry.word, description: trimmed }),
+				body: JSON.stringify({
+					word: wordEntry.word,
+					type: wordEntry.type,
+					description: trimmed,
+				}),
 			});
 
 			const data = (await response.json()) as EvaluationResult & {
