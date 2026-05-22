@@ -1,0 +1,24 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Explanation {
+  id              String   @id @default(cuid())
+  word            String
+  wordType        String?
+  score           Int
+  userExplanation String
+  aiExplanation   String
+  feedback        String
+  createdAt       DateTime @default(now())
+
+  @@index([word])
+}

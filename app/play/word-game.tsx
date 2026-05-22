@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { UserExplanation } from "./user-explanation";
 import { Score } from "./score";
@@ -108,13 +109,23 @@ export function WordGame({ initialWord }: WordGameProps) {
                 onGetNewWord={() => loadNewWord()}
                 onSubmit={(explanation: string) => { submitExplanation(explanation) }}
             />
-            {result && 
-                <Score
-                    score={result.score}
-                    explanation={result.explanation}
-                    feedback={result.feedback}
-                />
-            }
+            {result ? (
+                <div className="space-y-4">
+                    <Score
+                        score={result.score}
+                        explanation={result.explanation}
+                        feedback={result.feedback}
+                    />
+                    <p className="text-center text-sm">
+                        <Link
+                            href={`/words/${encodeURIComponent(wordEntry.word)}`}
+                            className="underline underline-offset-4 hover:opacity-80"
+                        >
+                            View all explanations for &ldquo;{wordEntry.word}&rdquo;
+                        </Link>
+                    </p>
+                </div>
+            ) : null}
 		</>
 	);
 }

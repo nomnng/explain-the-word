@@ -1,3 +1,4 @@
+import { saveExplanation } from "@/lib/explanations";
 import { evaluateWordDescription } from "@/lib/groq";
 import { NextResponse } from "next/server";
 
@@ -40,6 +41,16 @@ export async function POST(request: Request) {
 
 	try {
 		const result = await evaluateWordDescription(word, description, type);
+
+		await saveExplanation({
+			word,
+			wordType: type,
+			score: result.score,
+			userExplanation: description,
+			aiExplanation: result.explanation,
+			feedback: result.feedback,
+		});
+
 		return NextResponse.json(result);
 	} catch (error) {
 		const message =
