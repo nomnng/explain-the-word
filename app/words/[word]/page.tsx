@@ -49,7 +49,7 @@ export default async function WordPage({ params }: WordPageProps) {
 
 			<p className="text-center text-sm">
 				<Link href="/" className="underline underline-offset-4 hover:opacity-80">
-					Back to recent words
+					Back to home page
 				</Link>
 			</p>
 		</div>
