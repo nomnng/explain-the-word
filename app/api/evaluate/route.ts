@@ -1,4 +1,4 @@
-import { saveExplanation } from "@/lib/explanations";
+import { saveExplanation } from "@/lib/db/explanations";
 import { evaluateWordDescription } from "@/lib/groq";
 import { NextResponse } from "next/server";
 

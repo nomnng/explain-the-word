@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/db";
+import { prisma } from "@/lib/prisma";
 
 export type SaveExplanationInput = {
 	word: string;
@@ -37,5 +37,12 @@ export async function getExplanationsForWord(word: string) {
 			},
 		},
 		orderBy: { createdAt: "desc" },
+	});
+}
+
+export async function getAllExplanations(limit: number = 5) {
+	return prisma.explanation.findMany({
+		orderBy: { createdAt: "desc" },
+		take: limit,
 	});
 }

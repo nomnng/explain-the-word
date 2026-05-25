@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { useState } from "react";
 import { UserExplanation } from "./user-explanation";
-import { Score } from "./score";
+import { EvaluationResult } from "./evaluation-result";
 import type { WordEntry } from "@/lib/words";
 
-type EvaluationResult = {
+type EvaluationResultData = {
 	score: number;
 	explanation: string;
 	feedback: string;
@@ -18,7 +18,7 @@ type WordGameProps = {
 
 export function WordGame({ initialWord }: WordGameProps) {
 	const [wordEntry, setWordEntry] = useState(initialWord);
-	const [result, setResult] = useState<EvaluationResult | null>(null);
+	const [result, setResult] = useState<EvaluationResultData | null>(null);
 	const [error, setError] = useState<string | null>(null);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [isLoadingWord, setIsLoadingWord] = useState(false);
@@ -71,7 +71,7 @@ export function WordGame({ initialWord }: WordGameProps) {
 				}),
 			});
 
-			const data = (await response.json()) as EvaluationResult & {
+			const data = (await response.json()) as EvaluationResultData & {
 				error?: string;
 			};
 
@@ -106,12 +106,13 @@ export function WordGame({ initialWord }: WordGameProps) {
 			<UserExplanation
                 wordEntry={wordEntry}
                 isLoading={isLoadingWord || isSubmitting}
+				canSubmit={!result}
                 onGetNewWord={() => loadNewWord()}
                 onSubmit={(explanation: string) => { submitExplanation(explanation) }}
             />
             {result ? (
                 <div className="space-y-4">
-                    <Score
+                    <EvaluationResult
                         score={result.score}
                         explanation={result.explanation}
                         feedback={result.feedback}

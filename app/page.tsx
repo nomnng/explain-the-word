@@ -1,6 +1,9 @@
-import Link from "next/link";
+import { getAllExplanations } from "@/lib/db/explanations";
+import { ExplanationEntry } from "./components/explanation-entry";
 
-export default function HomePage() {
+export default async function HomePage() {
+	const explanations = await getAllExplanations();
+
 	return (
 		<div className="mx-auto flex w-full max-w-2xl flex-col gap-8 px-6 py-16 font-sans">
 			<header className="space-y-3">
@@ -13,9 +16,19 @@ export default function HomePage() {
 				</p>
 			</header>
 
-			<section className="rounded-3xl border-2 border-foreground bg-primary p-6 shadow-sm">
-				<p className="text-foreground/70">No saved words yet.</p>
-			</section>
+			{explanations.length === 0 ? (
+				<section className="rounded-3xl border-2 border-foreground bg-primary p-6 shadow-sm">
+					<p className="text-foreground/70">No saved words yet.</p>
+				</section>
+			) : (
+				<ul className="flex flex-col gap-6">
+					{explanations.map((entry) => (
+						<li key={entry.id}>
+							<ExplanationEntry explanation={entry} />
+						</li>
+					))}
+				</ul>
+			)}
 		</div>
 	);
 }

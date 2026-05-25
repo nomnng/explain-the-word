@@ -1,5 +1,5 @@
-import { ExplanationEntry } from "@/app/words/[word]/explanation-entry";
-import { getExplanationsForWord } from "@/lib/explanations";
+import { ExplanationEntry } from "@/app/components/explanation-entry";
+import { getExplanationsForWord } from "@/lib/db/explanations";
 import Link from "next/link";
 
 type WordPageProps = {
@@ -41,14 +41,7 @@ export default async function WordPage({ params }: WordPageProps) {
 				<ul className="flex flex-col gap-6">
 					{explanations.map((entry) => (
 						<li key={entry.id}>
-							<ExplanationEntry
-								score={entry.score}
-								userExplanation={entry.userExplanation}
-								feedback={entry.feedback}
-								aiExplanation={entry.aiExplanation}
-								createdAt={entry.createdAt}
-								wordType={entry.wordType}
-							/>
+							<ExplanationEntry explanation={entry} />
 						</li>
 					))}
 				</ul>

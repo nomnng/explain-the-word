@@ -1,17 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { WordEntry } from "@/lib/words";
 
 type UserExplanationProps = {
 	wordEntry: WordEntry;
 	isLoading: boolean;
+	canSubmit: boolean;
 	onGetNewWord: () => void;
 	onSubmit: (explanation: string) => void;
 };
 
-export function UserExplanation({ wordEntry, isLoading, onGetNewWord, onSubmit }: UserExplanationProps) {
+export function UserExplanation({ wordEntry, isLoading, canSubmit, onGetNewWord, onSubmit }: UserExplanationProps) {
 	const [explanation, setExplanation] = useState("");
+
+	useEffect(() => {
+		setExplanation("");
+	}, [wordEntry]);
 
 	const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -60,7 +65,7 @@ export function UserExplanation({ wordEntry, isLoading, onGetNewWord, onSubmit }
 							onChange={(event) => setExplanation(event.target.value)}
 							rows={6}
 							maxLength={2000}
-							disabled={isLoading}
+							disabled={isLoading || !canSubmit}
 							placeholder="Explain the meaning as clearly as you can..."
 							className="mt-1 w-full resize-none rounded-2xl border border-foreground bg-secondary px-4 py-3 outline-none disabled:opacity-60"
 						/>
@@ -73,7 +78,7 @@ export function UserExplanation({ wordEntry, isLoading, onGetNewWord, onSubmit }
 
 						<button
 							type="submit"
-							disabled={isLoading}
+							disabled={isLoading || !canSubmit}
 							className="rounded-full bg-foreground text-black px-6 py-3 text-sm hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-50"
 						>
 							Submit definition
