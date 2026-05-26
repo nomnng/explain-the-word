@@ -1,11 +1,16 @@
+import { Suspense } from "react";
 import { WordGame } from "./word-game";
 import { getRandomWord } from "@/lib/words";
+import { connection } from "next/server";
+import { LoadingSpinner } from "../components/loading-spinner";
 
-export const dynamic = "force-dynamic";
+async function WordGameWrapper() {
+	await connection();
+	const initialWord = getRandomWord();
+	return <WordGame initialWord={initialWord} />;
+}
 
 export default function PlayPage() {
-	const initialWord = getRandomWord();
-
 	return (
 		<div className="flex min-h-full flex-1 flex-col font-sans">
 			<div className="mx-auto flex w-full max-w-2xl flex-col gap-8 px-6 py-8">
@@ -18,7 +23,9 @@ export default function PlayPage() {
 						answer out of 100 and share the real definition.
 					</p>
 				</header>
-				<WordGame initialWord={initialWord} />
+				<Suspense fallback={<LoadingSpinner/>}>
+					<WordGameWrapper/>
+				</Suspense>
 			</div>
 
 		</div>

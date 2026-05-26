@@ -1,12 +1,14 @@
 import { ExplanationEntry } from "@/app/components/explanation-entry";
+import { LoadingSpinner } from "@/app/components/loading-spinner";
 import { getExplanationsForWord } from "@/lib/db/explanations";
 import Link from "next/link";
+import { Suspense } from "react";
 
 type WordPageProps = {
 	params: Promise<{ word: string }>;
 };
 
-export default async function WordPage({ params }: WordPageProps) {
+async function PageContent({ params }: WordPageProps) {
 	const { word } = await params;
 	const decodedWord = decodeURIComponent(word);
 	const explanations = await getExplanationsForWord(decodedWord);
@@ -53,5 +55,13 @@ export default async function WordPage({ params }: WordPageProps) {
 				</Link>
 			</p>
 		</div>
+	);
+}
+
+export default function WordPage({ params }: WordPageProps) {
+	return (
+		<Suspense fallback={<LoadingSpinner/>}>
+			<PageContent params={params}/>
+		</Suspense>
 	);
 }
